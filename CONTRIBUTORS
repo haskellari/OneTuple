@@ -1,0 +1,7 @@
+All of the following have contributed code to the project.  Thanks for
+your help!
+
+John Dorsey -- initial version
+Luke Palmer -- corrected instance Traversable
+Neil Mitchell -- pointed out that .cabal file is backward compatible
+

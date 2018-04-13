@@ -1,0 +1,22 @@
+
+This is a list of Frequently Asked Questions about OneTuple, the
+optional Haskell singleton tuple type.
+
+Some of these are, of course, merely anticipated FAQs.
+
+Q 1.  What's the point, if you can't support the same syntax as
+      'normal' tuples?
+A 1.  You can hack it up in TH if you want -- patches are welcome!
+      Simplicity and (near) H98 compatibility were goals in building
+      OneTuple.
+
+Q 2.  Why define 'data OneTuple' instead of just a type alias?
+A 2.  For laziness and pattern matching similar to other tuples.
+
+Q 3.  Isn't this the same as <something> ?
+A 3.  Could be, but this one's sold as a tuple!
+
+Q 4.  Singleton tuples don't make sense!  They're isomorphic to their
+      component type!
+A 4.  Yes, that's true, up to laziness.
+

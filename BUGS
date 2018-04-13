@@ -1,0 +1,5 @@
+
+* OneTuple needs the ability to send email.
+    Andrew Bromage points out that OneTuple isn't maximally
+    flexible until it can send email.
+
