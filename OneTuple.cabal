@@ -14,7 +14,7 @@ Copyright:       (c) John Dorsey 2008
 License:	 BSD3
 License-file:    LICENSE
 Author:          John Dorsey <haskell@colquitt.org>
-Maintainer:      John Dorsey <haskell@colquitt.org>
+Maintainer:      Oleg Grenrus <oleg.grenrus@iki.fi>, John Dorsey <haskell@colquitt.org>
 Stability:       experimental
 Build-type:      Simple
 tested-with:
@@ -26,7 +26,13 @@ tested-with:
     || ==7.10.3
     || ==8.0.2
     || ==8.2.2
-    || ==8.4.1
+    || ==8.4.2
+extra-source-files:
+  Changelog.md
+
+source-repository head
+  type:      git
+  location:  https://github.com/phadej/OneTUple.git
 
 library
   default-language: Haskell98
