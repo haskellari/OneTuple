@@ -1,4 +1,3 @@
-
 -- |OneTuple fills the /tuple gap/ with a singleton tuple.
 -- 
 -- OneTuple /does not support/ the usual parenthesized tuple syntax.
@@ -16,13 +15,14 @@
 
 module Data.Tuple.OneTuple (OneTuple(OneTuple), only) where
 
-import Control.Applicative
-import Control.Monad
-import Control.Monad.Fix
-import Data.Foldable
-import Data.Ix
-import Data.Monoid
-import Data.Traversable
+import Control.Applicative (Applicative (..), liftA)
+import Control.Monad (ap)
+import Control.Monad.Fix (MonadFix (..))
+import Data.Foldable (Foldable (..))
+import Data.Ix (Ix (..))
+import Data.Monoid (Monoid (..))
+import Data.Semigroup (Semigroup (..))
+import Data.Traversable (Traversable (..))
 
 -- |OneTuple is the singleton tuple data type.
 data OneTuple a
@@ -55,23 +55,30 @@ instance Foldable OneTuple where
     foldl1 _f (OneTuple x) = x
 
 instance Traversable OneTuple where
+    traverse f (OneTuple x) = fmap OneTuple (f x)
     sequenceA (OneTuple x) = fmap OneTuple x
 
 instance Functor OneTuple where
     fmap f (OneTuple x) = OneTuple (f x)
 
 instance Applicative OneTuple where
-    pure = return
-    (<*>) = ap
+    pure = OneTuple
+
+    OneTuple f <*> OneTuple x = OneTuple (f x)
+    _ *> x = x
+    x <* _ = x
 
 instance Monad OneTuple where
+    return = pure
+    (>>) = (*>)
     (OneTuple x) >>= f = f x
-    return = OneTuple
+
+instance (Semigroup a) => Semigroup (OneTuple a) where
+    OneTuple x <> OneTuple y = OneTuple (x <> y)
 
 instance (Monoid a) => Monoid (OneTuple a) where
     mempty = OneTuple mempty
     mappend (OneTuple x) (OneTuple y) = OneTuple (mappend x y)
-    mconcat = Prelude.foldr1 mappend
 
 instance MonadFix OneTuple where
     mfix f = let a = f (only a) in a
