@@ -1,6 +1,7 @@
 cabal-version:   >=1.10
 Name:            OneTuple
 Version:         0.2.2
+x-revision:      1
 
 Synopsis:        Singleton Tuple
 Category:        Data
