@@ -1,7 +1,7 @@
 -- |OneTuple fills the /tuple gap/ with a singleton tuple.
--- 
+--
 -- OneTuple /does not support/ the usual parenthesized tuple syntax.
--- 
+--
 -- OneTuple
 --
 --   * has the expected laziness properties
@@ -15,14 +15,14 @@
 
 module Data.Tuple.OneTuple (OneTuple(OneTuple), only) where
 
-import Control.Applicative (Applicative (..), liftA)
-import Control.Monad (ap)
-import Control.Monad.Fix (MonadFix (..))
-import Data.Foldable (Foldable (..))
-import Data.Ix (Ix (..))
-import Data.Monoid (Monoid (..))
-import Data.Semigroup (Semigroup (..))
-import Data.Traversable (Traversable (..))
+import Control.Applicative (Applicative (..))
+import Control.Monad       (ap)
+import Control.Monad.Fix   (MonadFix (..))
+import Data.Foldable       (Foldable (..))
+import Data.Ix             (Ix (..))
+import Data.Monoid         (Monoid (..))
+import Data.Semigroup      (Semigroup (..))
+import Data.Traversable    (Traversable (..))
 
 -- |OneTuple is the singleton tuple data type.
 data OneTuple a
@@ -36,8 +36,8 @@ only :: OneTuple a -- ^ takes a singleton tuple argument
 only (OneTuple x) = x
 
 instance (Enum a) => Enum (OneTuple a) where
-    succ = liftA succ
-    pred = liftA pred
+    succ = fmap succ
+    pred = fmap pred
     toEnum = pure . toEnum
     fromEnum (OneTuple x) = fromEnum x
 
