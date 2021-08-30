@@ -1,14 +1,21 @@
+{-# LANGUAGE CPP #-}
 module Main where
 
-import Data.Ix (Ix)
-import Data.Monoid         (Monoid (..))
-import Data.Semigroup      (Semigroup (..))
-import Control.Applicative (Applicative (..))
-import Control.Monad.Fix   (MonadFix (..))
-import Data.Traversable    (Traversable (..))
-import Data.Foldable       (Foldable (..))
+import Control.Applicative  (Applicative (..))
+import Control.Monad.Fix    (MonadFix (..))
+import Data.Data            (Data)
+import Data.Foldable        (Foldable (..))
+import Data.Functor.Classes (Eq1, Ord1, Read1, Show1)
+import Data.Ix              (Ix)
+import Data.Monoid          (Monoid (..))
+import Data.Semigroup       (Semigroup (..))
+import Data.Traversable     (Traversable (..))
 
-import Data.Tuple.OneTuple (OneTuple (..))
+#if MIN_VERSION_base(4,4,0)
+import Control.Monad.Zip (MonadZip (..))
+#endif
+
+import Data.Tuple.Solo (Solo (..))
 
 main :: IO ()
 main = putStrLn "works"
@@ -17,11 +24,11 @@ main = putStrLn "works"
 -- Instances
 -------------------------------------------------------------------------------
 
-tup1 :: OneTuple Char
-tup1 = OneTuple 'x'
+tup1 :: Solo Char
+tup1 = Solo 'x'
 
-tup2 :: OneTuple String
-tup2 = OneTuple "test"
+tup2 :: Solo String
+tup2 = Solo "test"
 
 hasEq :: Eq a => a -> a; hasEq x = x; testEq = hasEq tup1
 hasOrd :: Ord a => a -> a; hasOrd x = x; testOrd = hasOrd tup1
@@ -30,8 +37,11 @@ hasEnum :: Enum a => a -> a; hasEnum x = x; testEnum = hasEnum tup1
 hasShow :: Show a => a -> a; hasShow x = x; testShow = hasShow tup1
 hasRead :: Read a => a -> a; hasRead x = x; testRead = hasRead tup1
 hasIx :: Ix a => a -> a; hasIx x = x; testIx = hasIx tup1
+
 hasMonoid :: Monoid a => a -> a; hasMonoid x = x; testMonoid = hasMonoid tup2
 hasSemigroup :: Semigroup a => a -> a; hasSemigroup x = x; testSemigroup = hasSemigroup tup2
+
+hasData :: Data a => a -> a; hasData x = x; testData = hasData tup2
 
 hasFunctor :: Functor f => f a -> f a; hasFunctor x = x; testFunctor = hasFunctor tup1
 hasFoldable :: Foldable f => f a -> f a; hasFoldable x = x; testFoldable = hasFoldable tup1
@@ -39,3 +49,12 @@ hasTraversable :: Traversable f => f a -> f a; hasTraversable x = x; testTravers
 hasApplicative :: Applicative f => f a -> f a; hasApplicative x = x; testApplicative = hasApplicative tup1
 hasMonad :: Monad f => f a -> f a; hasMonad x = x; testMonad = hasMonad tup1
 hasMonadFix :: MonadFix f => f a -> f a; hasMonadFix x = x; testMonadFix = hasMonadFix tup1
+
+#if MIN_VERSION_base(4,4,0)
+hasMonadZip :: MonadZip f => f a -> f a; hasMonadZip x = x; testMonadZip = hasMonadZip tup1
+#endif
+
+hasEq1 :: Eq1 f => f a -> f a; hasEq1 x = x; testEq1 = hasEq1 tup1
+hasOrd1 :: Ord1 f => f a -> f a; hasOrd1 x = x; testOrd1 = hasOrd1 tup1
+hasShow1 :: Show1 f => f a -> f a; hasShow1 x = x; testShow1 = hasShow1 tup1
+hasRead1 :: Read1 f => f a -> f a; hasRead1 x = x; testRead1 = hasRead1 tup1
