@@ -49,3 +49,12 @@ library
 
   if !impl(ghc >=8.0)
     build-depends: semigroups >=0.18.4 && <0.20
+
+test-suite instances
+  type: exitcode-stdio-1.0
+  default-language: Haskell98
+  hs-source-dirs:   test
+  main-is:          instances.hs
+  build-depends: base, OneTuple 
+  if !impl(ghc >=8.0)
+    build-depends: semigroups
