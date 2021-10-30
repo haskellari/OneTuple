@@ -1,3 +1,7 @@
+# 0.3.1
+
+- Add `Data.Tuple.Solo.TH` with `tupE` using `Solo` from this package
+
 # 0.3
 
 - Rename `OneTuple` to `Solo`

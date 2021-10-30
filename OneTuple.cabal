@@ -1,6 +1,6 @@
 cabal-version:      >=1.10
 name:               OneTuple
-version:            0.3
+version:            0.3.1
 synopsis:           Singleton Tuple
 category:           Data
 description:
@@ -48,9 +48,10 @@ library
   exposed-modules:
     Data.Tuple.OneTuple
     Data.Tuple.Solo
+    Data.Tuple.Solo.TH
 
   hs-source-dirs:   src
-  build-depends:    base >=4.3 && <4.17
+  build-depends:    base >=4.3 && <4.17, template-haskell
 
   if impl(ghc >=9.0)
     build-depends: ghc-prim
@@ -87,3 +88,13 @@ test-suite instances
         semigroups
       , transformers
       , transformers-compat
+
+test-suite th
+  type:             exitcode-stdio-1.0
+  default-language: Haskell98
+  hs-source-dirs:   test
+  main-is: th.hs
+  build-depends:
+      base
+    , OneTuple
+    , template-haskell
