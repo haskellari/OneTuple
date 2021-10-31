@@ -6,6 +6,8 @@ import Control.Monad.Fix    (MonadFix (..))
 import Data.Data            (Data)
 import Data.Foldable        (Foldable (..))
 import Data.Functor.Classes (Eq1, Ord1, Read1, Show1)
+import Data.Hashable        (Hashable)
+import Data.Hashable.Lifted (Hashable1)
 import Data.Ix              (Ix)
 import Data.Monoid          (Monoid (..))
 import Data.Semigroup       (Semigroup (..))
@@ -58,3 +60,6 @@ hasEq1 :: Eq1 f => f a -> f a; hasEq1 x = x; testEq1 = hasEq1 tup1
 hasOrd1 :: Ord1 f => f a -> f a; hasOrd1 x = x; testOrd1 = hasOrd1 tup1
 hasShow1 :: Show1 f => f a -> f a; hasShow1 x = x; testShow1 = hasShow1 tup1
 hasRead1 :: Read1 f => f a -> f a; hasRead1 x = x; testRead1 = hasRead1 tup1
+
+hasHashable :: Hashable a => a -> a; hasHashable x = x; testHashable = hasHashable tup1
+hasHashable1 :: Hashable1 f => f a -> f a; hasHashable1 x = x; testHashable1 = hasHashable1 tup1
