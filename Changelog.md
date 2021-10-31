@@ -1,6 +1,8 @@
 # 0.3.1
 
 - Add `Data.Tuple.Solo.TH` with `tupE` using `Solo` from this package
+- Add `Hashable` and `Hashable1` instances
+- Drop GHC-7.0 and GHC-7.2 support
 
 # 0.3
 

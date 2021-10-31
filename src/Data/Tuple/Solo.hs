@@ -1,13 +1,7 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE DeriveDataTypeable #-}
-#if __GLASGOW_HASKELL__ >= 704
 {-# LANGUAGE Safe #-}
-#elif __GLASGOW_HASKELL__ >= 702
-{-# LANGUAGE Trustworthy #-}
-#endif
-#if __GLASGOW_HASKELL__ >=702
 {-# LANGUAGE DeriveGeneric #-}
-#endif
 
 -- | 'Solo' fills the /tuple gap/ with a singleton tuple.
 --
@@ -74,6 +68,11 @@ import Data.Typeable       (Typeable)
 
 import Data.Functor.Classes (Eq1 (..), Ord1 (..), Show1 (..), Read1 (..))
 
+#if !(MIN_VERSION_base(4,15,0))
+import Data.Hashable        (Hashable (..))
+import Data.Hashable.Lifted (Hashable1 (..), hashWithSalt1)
+#endif
+
 #if LIFTED_FUNCTOR_CLASSES
 #if MIN_VERSION_base(4,10,0)
 import Data.Functor.Classes (readData, readUnaryWith, liftReadListDefault, liftReadListPrecDefault)
@@ -82,23 +81,16 @@ import Data.Functor.Classes (readsData, readsUnaryWith)
 #endif
 #endif
 
-#if MIN_VERSION_base(4,4,0)
 import GHC.Generics        (Generic, Generic1)
-#endif
-
-#if MIN_VERSION_base(4,4,0)
 import Control.Monad.Zip   (MonadZip (..))
-#endif
 
 -- | Solo is the singleton tuple data type.
 data Solo a = Solo { getSolo :: a }
   deriving
     ( Eq,Ord,Bounded,Read,Typeable,Data
-#if MIN_VERSION_base(4,4,0)
     , Generic
 #if __GLASGOW_HASKELL__ >=706
     , Generic1
-#endif
 #endif
     )
 
@@ -172,10 +164,8 @@ instance Monoid a => Monoid (Solo a) where
 instance MonadFix Solo where
     mfix f = let a = f (getSolo a) in a
 
-#if MIN_VERSION_base(4,4,0)
 instance MonadZip Solo where
     mzipWith f (Solo a) (Solo b) = Solo (f a b)
-#endif
 
 #ifdef LIFTED_FUNCTOR_CLASSES
 instance Eq1 Solo where
@@ -205,4 +195,14 @@ instance Read1 Solo where readsPrec1 = readsPrec
 instance Show1 Solo where showsPrec1 = showsPrec
 #endif
 
+#endif
+
+#if !(MIN_VERSION_base(4,15,0))
+-- | @since 0.3.1
+instance Hashable a => Hashable (Solo a) where
+    hashWithSalt = hashWithSalt1
+
+-- | @since 0.3.1
+instance Hashable1 Solo where
+    liftHashWithSalt h salt (Solo a) = h salt a
 #endif
