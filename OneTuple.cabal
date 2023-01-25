@@ -1,7 +1,6 @@
-cabal-version:      >=1.10
+cabal-version:      1.12
 name:               OneTuple
-version:            0.3.1
-x-revision:         3
+version:            0.4
 synopsis:           Singleton Tuple
 category:           Data
 description:
@@ -32,10 +31,11 @@ tested-with:
    || ==8.4.4
    || ==8.6.5
    || ==8.8.4
-   || ==8.10.4
+   || ==8.10.7
    || ==9.0.2
-   || ==9.2.4
-   || ==9.4.1
+   || ==9.2.5
+   || ==9.4.4
+   || ==9.6.1
 
 extra-source-files: Changelog.md
 
@@ -52,7 +52,7 @@ library
 
   hs-source-dirs:   src
   build-depends:
-      base              >=4.5 && <4.18
+      base              >=4.5 && <4.19
     , template-haskell
 
   if impl(ghc >=9.0)
@@ -79,6 +79,9 @@ library
   if !impl(ghc >=7.6)
     build-depends: ghc-prim
 
+  if !impl(ghc >=9.0)
+     build-depends: foldable1-classes-compat >=0.1 && <0.2
+
 test-suite instances
   type:             exitcode-stdio-1.0
   default-language: Haskell98
@@ -94,6 +97,9 @@ test-suite instances
         semigroups
       , transformers
       , transformers-compat
+
+  if !impl(ghc >=9.6)
+     build-depends: foldable1-classes-compat >=0.1 && <0.2
 
 test-suite th
   type:             exitcode-stdio-1.0

@@ -33,7 +33,7 @@ soloConName = 'Solo
 #error "CURRENT_PACKAGE_KEY undefined"
 #endif
 
-soloConName = TH.mkNameG_d CURRENT_PACKAGE_KEY "Data.Tuple.Solo" "Solo"
+soloConName = TH.mkNameG_d CURRENT_PACKAGE_KEY "Data.Tuple.Solo" "MkSolo"
 #endif
 
 tupE :: Monad m => [m TH.Exp] -> m TH.Exp

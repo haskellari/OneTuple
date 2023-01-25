@@ -5,6 +5,7 @@ import Control.Applicative  (Applicative (..))
 import Control.Monad.Fix    (MonadFix (..))
 import Data.Data            (Data)
 import Data.Foldable        (Foldable (..))
+import Data.Foldable1       (Foldable1)
 import Data.Functor.Classes (Eq1, Ord1, Read1, Show1)
 import Data.Hashable        (Hashable)
 import Data.Hashable.Lifted (Hashable1)
@@ -27,10 +28,10 @@ main = putStrLn "works"
 -------------------------------------------------------------------------------
 
 tup1 :: Solo Char
-tup1 = Solo 'x'
+tup1 = MkSolo 'x'
 
 tup2 :: Solo String
-tup2 = Solo "test"
+tup2 = MkSolo "test"
 
 hasEq :: Eq a => a -> a; hasEq x = x; testEq = hasEq tup1
 hasOrd :: Ord a => a -> a; hasOrd x = x; testOrd = hasOrd tup1
@@ -47,6 +48,7 @@ hasData :: Data a => a -> a; hasData x = x; testData = hasData tup2
 
 hasFunctor :: Functor f => f a -> f a; hasFunctor x = x; testFunctor = hasFunctor tup1
 hasFoldable :: Foldable f => f a -> f a; hasFoldable x = x; testFoldable = hasFoldable tup1
+hasFoldable1 :: Foldable1 f => f a -> f a; hasFoldable1 x = x; testFoldable1 = hasFoldable1 tup1
 hasTraversable :: Traversable f => f a -> f a; hasTraversable x = x; testTraversable = hasTraversable tup1
 hasApplicative :: Applicative f => f a -> f a; hasApplicative x = x; testApplicative = hasApplicative tup1
 hasMonad :: Monad f => f a -> f a; hasMonad x = x; testMonad = hasMonad tup1
