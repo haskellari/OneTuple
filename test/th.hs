@@ -5,4 +5,4 @@ import Data.Tuple.Solo
 import Data.Tuple.Solo.TH (tupE)
 
 main :: IO ()
-main = print $ Solo 'x' == $(tupE [[| 'x' |]])
+main = print $ MkSolo 'x' == $(tupE [[| 'x' |]])

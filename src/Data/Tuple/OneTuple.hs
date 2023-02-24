@@ -27,5 +27,9 @@ only = getSolo
 #if __GLASGOW_HASKELL__ >= 710
 pattern OneTuple :: a -> Solo a
 #endif
-pattern OneTuple a = Solo a
+pattern OneTuple a = MkSolo a
+#endif
+
+#if __GLASGOW_HASKELL__ >= 800
+{-# COMPLETE OneTuple #-}
 #endif
