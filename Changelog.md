@@ -1,3 +1,9 @@
+# 0.4
+
+- Rename constructor to `MkSolo` as in `base-4.17`.
+  The compatibility pattern synonym is provided.
+- Add `Foldable1 Solo` instance
+
 # 0.3.1
 
 - Add `Data.Tuple.Solo.TH` with `tupE` using `Solo` from this package
