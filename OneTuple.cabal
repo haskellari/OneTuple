@@ -6,7 +6,7 @@ category:           Data
 description:
   This package is a compatibility package for a singleton data type
   .
-  > data Solo a = Solo a
+  > data Solo a = MkSolo a
   .
   Note: it's not a @newtype@
   .
