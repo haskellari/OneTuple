@@ -1,3 +1,7 @@
+# 0.4.1
+
+- Mark `MkSolo` pattern synonym as `COMPLETE`
+
 # 0.4
 
 - Rename constructor to `MkSolo` as in `base-4.17`.

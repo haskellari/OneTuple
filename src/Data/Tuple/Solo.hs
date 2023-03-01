@@ -50,6 +50,8 @@ import GHC.Tuple (Solo (Solo), getSolo)
 pattern MkSolo :: a -> Solo a
 pattern MkSolo a = Solo a
 
+{-# COMPLETE MkSolo #-}
+
 #elif MIN_VERSION_base(4,15,0)
 import GHC.Tuple (Solo (Solo))
 
