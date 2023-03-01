@@ -1,4 +1,9 @@
 {-# LANGUAGE CPP #-}
+#if __GLASGOW_HASKELL__ >= 800
+{-# OPTIONS_GHC -Wincomplete-patterns -Werror=incomplete-patterns #-}
+#else
+{-# OPTIONS_GHC -fwarn-incomplete-patterns -Werror #-}
+#endif
 module Main where
 
 import Control.Applicative  (Applicative (..))
@@ -22,6 +27,13 @@ import Data.Tuple.Solo (Solo (..))
 
 main :: IO ()
 main = putStrLn "works"
+
+-------------------------------------------------------------------------------
+-- pattern match
+-------------------------------------------------------------------------------
+
+match :: Solo a -> a
+match (MkSolo x) = x
 
 -------------------------------------------------------------------------------
 -- Instances
