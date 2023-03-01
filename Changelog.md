@@ -1,3 +1,7 @@
+# 0.4.1.1
+
+- Support GHC-7.2 and GHC-7.0.
+
 # 0.4.1
 
 - Mark `MkSolo` pattern synonym as `COMPLETE`
