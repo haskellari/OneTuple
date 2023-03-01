@@ -1,10 +1,18 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE Safe #-}
+
+#if __GLASGOW_HASKELL__ >=702
 {-# LANGUAGE DeriveGeneric #-}
+#endif
 
 #if __GLASGOW_HASKELL__ >= 708
 {-# LANGUAGE PatternSynonyms #-}
+#endif
+
+#if __GLASGOW_HASKELL__ >=704
+{-# LANGUAGE Safe #-}
+#elif __GLASGOW_HASKELL__ >=702
+{-# LANGUAGE Trustworthy #-}
 #endif
 
 -- | 'Solo' fills the /tuple gap/ with a singleton tuple.
@@ -109,16 +117,20 @@ import Data.Functor.Classes (readsData, readsUnaryWith)
 #endif
 #endif
 
+#if MIN_VERSION_base(4,4,0)
 import GHC.Generics        (Generic, Generic1)
 import Control.Monad.Zip   (MonadZip (..))
+#endif
 
 -- | Solo is the singleton tuple data type.
 data Solo a = MkSolo { getSolo :: a }
   deriving
     ( Eq,Ord,Bounded,Read,Typeable,Data
+#if MIN_VERSION_base(4,4,0)
     , Generic
 #if __GLASGOW_HASKELL__ >=706
     , Generic1
+#endif
 #endif
     )
 
@@ -212,8 +224,10 @@ instance Monoid a => Monoid (Solo a) where
 instance MonadFix Solo where
     mfix f = let a = f (getSolo a) in a
 
+#if MIN_VERSION_base(4,4,0)
 instance MonadZip Solo where
     mzipWith f (MkSolo a) (MkSolo b) = MkSolo (f a b)
+#endif
 
 #ifdef LIFTED_FUNCTOR_CLASSES
 instance Eq1 Solo where
