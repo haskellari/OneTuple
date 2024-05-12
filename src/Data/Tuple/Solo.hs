@@ -1,19 +1,8 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE DeriveDataTypeable #-}
-
-#if __GLASGOW_HASKELL__ >=702
 {-# LANGUAGE DeriveGeneric #-}
-#endif
-
-#if __GLASGOW_HASKELL__ >= 708
 {-# LANGUAGE PatternSynonyms #-}
-#endif
-
-#if __GLASGOW_HASKELL__ >=704
 {-# LANGUAGE Safe #-}
-#elif __GLASGOW_HASKELL__ >=702
-{-# LANGUAGE Trustworthy #-}
-#endif
 
 -- | 'Solo' fills the /tuple gap/ with a singleton tuple.
 --
@@ -33,14 +22,7 @@
 -- Note: on GHC-9.0 'getSolo' is not a record selector.
 
 module Data.Tuple.Solo (
-#if __GLASGOW_HASKELL__ >= 800
     Solo(MkSolo,Solo),
-#elif __GLASGOW_HASKELL__ >= 708
-    Solo(MkSolo),
-    pattern Solo,
-#else
-    Solo(MkSolo),
-#endif
     getSolo,
 ) where
 
@@ -74,20 +56,6 @@ pattern MkSolo a = Solo a
 
 #else
 
-#if MIN_VERSION_base(4,9,0)
-#define LIFTED_FUNCTOR_CLASSES 1
-#else
-#if MIN_VERSION_transformers(0,5,0)
-#define LIFTED_FUNCTOR_CLASSES 1
-#else
-#ifdef MIN_VERSION_transformers_compat
-#if MIN_VERSION_transformers_compat(0,5,0) && !(MIN_VERSION_transformers(0,4,0))
-#define LIFTED_FUNCTOR_CLASSES 1
-#endif
-#endif
-#endif
-#endif
-
 import Control.Applicative (Applicative (..))
 import Control.Monad       (ap)
 import Control.Monad.Fix   (MonadFix (..))
@@ -109,41 +77,21 @@ import Data.Hashable        (Hashable (..))
 import Data.Hashable.Lifted (Hashable1 (..), hashWithSalt1)
 #endif
 
-#if LIFTED_FUNCTOR_CLASSES
-#if MIN_VERSION_base(4,10,0)
 import Data.Functor.Classes (readData, readUnaryWith, liftReadListDefault, liftReadListPrecDefault)
-#else
-import Data.Functor.Classes (readsData, readsUnaryWith)
-#endif
-#endif
-
-#if MIN_VERSION_base(4,4,0)
 import GHC.Generics        (Generic, Generic1)
 import Control.Monad.Zip   (MonadZip (..))
-#endif
 
 -- | Solo is the singleton tuple data type.
 data Solo a = MkSolo { getSolo :: a }
   deriving
     ( Eq,Ord,Bounded,Read,Typeable,Data
-#if MIN_VERSION_base(4,4,0)
     , Generic
-#if __GLASGOW_HASKELL__ >=706
     , Generic1
-#endif
-#endif
     )
 
-#if __GLASGOW_HASKELL__ >= 708
-#if __GLASGOW_HASKELL__ >= 710
 pattern Solo :: a -> Solo a
-#endif
 pattern Solo a = MkSolo a
-#endif
-
-#if __GLASGOW_HASKELL__ >= 800
 {-# COMPLETE Solo #-}
-#endif
 
 
 instance Show a => Show (Solo a) where
@@ -170,7 +118,6 @@ instance Foldable Solo where
     foldl1 _f (MkSolo x) = x
 
     -- TODO: add rest of the methods
-#if MIN_VERSION_base(4,8,0)
     null _ = False
     length _ = 1
 
@@ -180,7 +127,6 @@ instance Foldable Solo where
     product = getSolo
 
     toList (MkSolo a) = [a]
-#endif
 
 -- | @since 0.4
 instance F1.Foldable1 Solo where
@@ -205,9 +151,7 @@ instance Applicative Solo where
     _ *> x = x
     x <* _ = x
 
-#if MIN_VERSION_base(4,10,0)
     liftA2 f (Solo x) (Solo y) = Solo (f x y)
-#endif
 
 instance Monad Solo where
     return = pure
@@ -224,12 +168,9 @@ instance Monoid a => Monoid (Solo a) where
 instance MonadFix Solo where
     mfix f = let a = f (getSolo a) in a
 
-#if MIN_VERSION_base(4,4,0)
 instance MonadZip Solo where
     mzipWith f (MkSolo a) (MkSolo b) = MkSolo (f a b)
-#endif
 
-#ifdef LIFTED_FUNCTOR_CLASSES
 instance Eq1 Solo where
   liftEq eq (MkSolo a) (MkSolo b) = a `eq` b
 
@@ -237,26 +178,14 @@ instance Ord1 Solo where
   liftCompare cmp (MkSolo a) (MkSolo b) = cmp a b
 
 instance Read1 Solo where
-#if MIN_VERSION_base(4,10,0)
     liftReadPrec rp _ = readData (readUnaryWith rp "MkSolo" MkSolo)
 
     liftReadListPrec = liftReadListPrecDefault
     liftReadList     = liftReadListDefault
-#else
-    liftReadsPrec rp _ = readsData $ readsUnaryWith rp "MkSolo" MkSolo
-#endif
 
 instance Show1 Solo where
     liftShowsPrec sp _ d (MkSolo x) = showParen (d > 10) $
       showString "MkSolo " . sp 11 x
-
-#else
-instance Eq1 Solo where eq1 = (==)
-instance Ord1 Solo where compare1 = compare
-instance Read1 Solo where readsPrec1 = readsPrec
-instance Show1 Solo where showsPrec1 = showsPrec
-#endif
-
 #endif
 
 #if !(MIN_VERSION_base(4,15,0))
