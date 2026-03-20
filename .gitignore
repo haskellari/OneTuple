@@ -1,3 +1,4 @@
 dist-newstyle
+dist-mcabal
 .ghc.environment.*
 cabal.project.local

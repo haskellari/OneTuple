@@ -30,7 +30,16 @@ module Data.Tuple.Solo (
 import Data.Orphans ()
 #endif
 
-#if MIN_VERSION_base(4,18,0)
+#if defined(__MHS__)
+import Data.Tuple (Solo (MkSolo), getSolo)
+
+pattern Solo :: a -> Solo a
+pattern Solo a = Solo a
+
+{-# COMPLETE Solo #-}
+
+
+#elif MIN_VERSION_base(4,18,0)
 import GHC.Tuple (Solo (MkSolo, Solo), getSolo)
 
 
