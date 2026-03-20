@@ -91,6 +91,8 @@ test-suite th
   default-language: Haskell98
   hs-source-dirs:   test
   main-is:          th.hs
+  if !impl(ghc)
+      buildable: False
   build-depends:
       base
     , OneTuple
