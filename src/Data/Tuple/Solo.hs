@@ -30,6 +30,13 @@ module Data.Tuple.Solo (
 import Data.Orphans ()
 #endif
 
+#if defined(DEFINE_HASHABLE)
+#if !MIN_VERSION_hashable(1,3,5) || defined(__GLASGOW_HASKELL__)
+import Data.Hashable        (Hashable (..))
+import Data.Hashable.Lifted (Hashable1 (..), hashWithSalt1)
+#endif
+#endif
+
 #if defined(__MHS__)
 import Data.Tuple (Solo (MkSolo), getSolo)
 
@@ -80,11 +87,6 @@ import Data.Typeable       (Typeable)
 import qualified Data.Foldable1 as F1
 
 import Data.Functor.Classes (Eq1 (..), Ord1 (..), Show1 (..), Read1 (..))
-
-#if !(MIN_VERSION_base(4,15,0))
-import Data.Hashable        (Hashable (..))
-import Data.Hashable.Lifted (Hashable1 (..), hashWithSalt1)
-#endif
 
 import Data.Functor.Classes (readData, readUnaryWith, liftReadListDefault, liftReadListPrecDefault)
 import GHC.Generics        (Generic, Generic1)
@@ -197,7 +199,8 @@ instance Show1 Solo where
       showString "MkSolo " . sp 11 x
 #endif
 
-#if !(MIN_VERSION_base(4,15,0))
+#if defined(DEFINE_HASHABLE)
+#if !MIN_VERSION_hashable(1,3,5) || defined(__GLASGOW_HASKELL__)
 -- | @since 0.3.1
 instance Hashable a => Hashable (Solo a) where
     hashWithSalt = hashWithSalt1
@@ -205,4 +208,5 @@ instance Hashable a => Hashable (Solo a) where
 -- | @since 0.3.1
 instance Hashable1 Solo where
     liftHashWithSalt h salt (MkSolo a) = h salt a
+#endif
 #endif
