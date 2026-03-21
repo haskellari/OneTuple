@@ -30,7 +30,7 @@ module Data.Tuple.Solo (
 import Data.Orphans ()
 #endif
 
-#if defined(DEFINE_HASHABLE)
+#if defined(MIN_VERSION_hashable)
 #if !MIN_VERSION_hashable(1,3,5) || defined(__GLASGOW_HASKELL__)
 import Data.Hashable        (Hashable (..))
 import Data.Hashable.Lifted (Hashable1 (..), hashWithSalt1)
@@ -199,7 +199,7 @@ instance Show1 Solo where
       showString "MkSolo " . sp 11 x
 #endif
 
-#if defined(DEFINE_HASHABLE)
+#if defined(MIN_VERSION_hashable)
 #if !MIN_VERSION_hashable(1,3,5) || defined(__GLASGOW_HASKELL__)
 -- | @since 0.3.1
 instance Hashable a => Hashable (Solo a) where
