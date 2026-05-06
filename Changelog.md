@@ -1,3 +1,7 @@
+# 0.4.3
+
+- Use automatic flags for compatibility conditionals
+
 # 0.4.1.1
 
 - Support GHC-7.2 and GHC-7.0.

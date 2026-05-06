@@ -1,9 +1,6 @@
 {-# LANGUAGE CPP #-}
-#if __GLASGOW_HASKELL__ >= 800
 {-# OPTIONS_GHC -Wincomplete-patterns -Werror=incomplete-patterns #-}
-#else
 {-# OPTIONS_GHC -fwarn-incomplete-patterns -Werror #-}
-#endif
 module Main where
 
 import Control.Applicative  (Applicative (..))
@@ -66,9 +63,7 @@ hasApplicative :: Applicative f => f a -> f a; hasApplicative x = x; testApplica
 hasMonad :: Monad f => f a -> f a; hasMonad x = x; testMonad = hasMonad tup1
 hasMonadFix :: MonadFix f => f a -> f a; hasMonadFix x = x; testMonadFix = hasMonadFix tup1
 
-#if MIN_VERSION_base(4,4,0)
 hasMonadZip :: MonadZip f => f a -> f a; hasMonadZip x = x; testMonadZip = hasMonadZip tup1
-#endif
 
 hasEq1 :: Eq1 f => f a -> f a; hasEq1 x = x; testEq1 = hasEq1 tup1
 hasOrd1 :: Ord1 f => f a -> f a; hasOrd1 x = x; testOrd1 = hasOrd1 tup1
