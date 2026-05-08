@@ -54,6 +54,7 @@ pattern MkSolo a = Solo a
 
 {-# COMPLETE MkSolo #-}
 
+-- !MIN_VERSION_base(4,15,0)
 #else
 
 import Control.Applicative (Applicative (..))
